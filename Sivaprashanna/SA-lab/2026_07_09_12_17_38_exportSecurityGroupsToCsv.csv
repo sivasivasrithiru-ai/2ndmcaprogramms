@@ -1,0 +1,2 @@
+GroupId,GroupName,VpcId,Description,OwnerId,InboundRulesCount,OutboundRulesCount,Tags
+sg-0f784a6dc5a30490a,default,vpc-064865e71f8056862,default VPC security group,345485441864,1,1,Name:siva_sg
