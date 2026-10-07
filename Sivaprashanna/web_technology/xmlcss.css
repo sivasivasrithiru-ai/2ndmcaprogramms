@@ -1,0 +1,59 @@
+students {
+    display: block;
+    background-color: lightgray;
+    padding: 20px;
+    font-family: Arial;
+}
+
+student {
+    display: block;
+    background-color: white;
+    border: 2px solid black;
+    padding: 15px;
+    margin: 15px;
+    width: 400px;
+}
+
+name {
+    display: block;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+rollno {
+    display: block;
+    margin: 5px;
+}
+
+course {
+    display: block;
+    margin: 5px;
+}
+
+college {
+    display: block;
+    margin: 5px;
+}
+
+mark {
+    display: block;
+    margin: 5px;
+    font-weight: bold;
+}
+
+rollno:before {
+    content: "Roll No: ";
+}
+
+course:before {
+    content: "Course: ";
+}
+
+college:before {
+    content: "College: ";
+}
+
+mark:before {
+    content: "Mark: ";
+}

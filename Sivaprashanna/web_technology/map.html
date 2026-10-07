@@ -1,0 +1,261 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Map Creator</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f2f2f2;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        #imageContainer {
+            position: relative;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        #myImage {
+            max-width: 800px;
+            display: block;
+        }
+
+        .area {
+            position: absolute;
+            border: 2px solid red;
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        textarea {
+            width: 80%;
+            height: 200px;
+            margin-top: 20px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Image Map Creator</h1>
+
+        <input type="file" id="imageInput" accept="image/*">
+
+        <br>
+
+        <input type="text" id="linkInput"
+               placeholder="Enter URL (example: https://google.com)">
+
+        <button onclick="clearAreas()">Clear Areas</button>
+        <button onclick="generateCode()">Generate HTML Code</button>
+
+        <div id="imageContainer">
+            <img id="myImage">
+        </div>
+
+        <h2>Generated Image Map Code</h2>
+
+        <textarea id="output" readonly></textarea>
+
+    </div>
+
+
+    <script>
+
+        const imageInput = document.getElementById("imageInput");
+        const image = document.getElementById("myImage");
+        const container = document.getElementById("imageContainer");
+
+        let areas = [];
+        let startX, startY;
+        let drawing = false;
+
+        // Upload Image
+        imageInput.addEventListener("change", function () {
+
+            const file = this.files[0];
+
+            if (file) {
+                image.src = URL.createObjectURL(file);
+            }
+        });
+
+
+        // Start drawing
+        container.addEventListener("mousedown", function (e) {
+
+            if (e.target !== image)
+                return;
+
+            const rect = image.getBoundingClientRect();
+
+            startX = e.clientX - rect.left;
+            startY = e.clientY - rect.top;
+
+            drawing = true;
+        });
+
+
+        // Draw rectangle
+        container.addEventListener("mousemove", function (e) {
+
+            if (!drawing)
+                return;
+
+            let old = document.querySelector(".temp");
+
+            if (old)
+                old.remove();
+
+            const rect = image.getBoundingClientRect();
+
+            let currentX = e.clientX - rect.left;
+            let currentY = e.clientY - rect.top;
+
+            let x = Math.min(startX, currentX);
+            let y = Math.min(startY, currentY);
+
+            let width = Math.abs(currentX - startX);
+            let height = Math.abs(currentY - startY);
+
+            let box = document.createElement("div");
+
+            box.className = "area temp";
+
+            box.style.left = x + "px";
+            box.style.top = y + "px";
+            box.style.width = width + "px";
+            box.style.height = height + "px";
+
+            container.appendChild(box);
+        });
+
+
+        // Finish rectangle
+        container.addEventListener("mouseup", function (e) {
+
+            if (!drawing)
+                return;
+
+            drawing = false;
+
+            let temp = document.querySelector(".temp");
+
+            if (!temp)
+                return;
+
+            temp.remove();
+
+            const rect = image.getBoundingClientRect();
+
+            let endX = e.clientX - rect.left;
+            let endY = e.clientY - rect.top;
+
+            let x1 = Math.min(startX, endX);
+            let y1 = Math.min(startY, endY);
+
+            let x2 = Math.max(startX, endX);
+            let y2 = Math.max(startY, endY);
+
+            let url = document.getElementById("linkInput").value;
+
+            if (url === "")
+                url = "#";
+
+            areas.push({
+                x1: Math.round(x1),
+                y1: Math.round(y1),
+                x2: Math.round(x2),
+                y2: Math.round(y2),
+                url: url
+            });
+
+            createArea(x1, y1, x2, y2);
+        });
+
+
+        // Display rectangle
+        function createArea(x1, y1, x2, y2) {
+
+            let box = document.createElement("div");
+
+            box.className = "area";
+
+            box.style.left = x1 + "px";
+            box.style.top = y1 + "px";
+
+            box.style.width = (x2 - x1) + "px";
+            box.style.height = (y2 - y1) + "px";
+
+            container.appendChild(box);
+        }
+
+
+        // Clear all areas
+        function clearAreas() {
+
+            areas = [];
+
+            document.querySelectorAll(".area")
+                .forEach(a => a.remove());
+
+            document.getElementById("output").value = "";
+        }
+
+
+        // Generate HTML
+        function generateCode() {
+
+            if (areas.length === 0) {
+                alert("Please create at least one area.");
+                return;
+            }
+
+            let code = "";
+
+            code += '<img src="C:\Users\MCA-Lab6\Desktop\Sivaprashanna_T\2ndmcaprogramms-main\Sivaprashanna\web_technology\map.png" usemap="#myMap">\n\n';
+
+            code += '<map name="myMap">\n';
+
+            areas.forEach(function (area) {
+
+                code +=
+                    '    <area shape="rect" ' +
+                    'coords="' +
+                    area.x1 + ',' +
+                    area.y1 + ',' +
+                    area.x2 + ',' +
+                    area.y2 +
+                    '" href="' +
+                    area.url +
+                    '">\n';
+            });
+
+            code += "</map>";
+
+            document.getElementById("output").value = code;
+        }
+
+    </script>
+
+</body>
+</html>
+```

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet type="text/css" href="xmlcss.css"?>
+
+<students>
+
+    <student>
+        <name>Sivaprashanna T</name>
+        <rollno>201</rollno>
+        <course>MCA</course>
+        <college>Periyar University</college>
+        <mark>88</mark>
+    </student>
+
+    <student>
+        <name>Sri T</name>
+        <rollno>202</rollno>
+        <course>BSc CS</course>  
+        <college>Unique College</college>
+        <mark>95</mark>
+    </student>
+
+    <student>
+        <name>yalu</name>
+        <rollno>203</rollno>
+        <course>MCA</course>
+        <college>SRM College</college>
+        <mark>81</mark>
+    </student>
+
+</students>

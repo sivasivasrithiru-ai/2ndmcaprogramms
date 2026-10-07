@@ -1,0 +1,170 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Input Validation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+        }
+
+        .container {
+            width: 400px;
+            margin: 50px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Input Validation Form</h2>
+
+    <form onsubmit="return validateForm()">
+
+        <label>Name:</label>
+        <input type="text" id="name">
+        <span id="nameError" class="error"></span>
+
+        <label>Email:</label>
+        <input type="text" id="email">
+        <span id="emailError" class="error"></span>
+
+        <label>Password:</label>
+        <input type="password" id="password">
+        <span id="passwordError" class="error"></span>
+
+        <label>Phone Number:</label>
+        <input type="text" id="phone">
+        <span id="phoneError" class="error"></span>
+
+        <label>Age:</label>
+        <input type="number" id="age">
+        <span id="ageError" class="error"></span>
+
+        <button type="submit">Submit</button>
+
+    </form>
+
+</div>
+
+<script>
+
+function validateForm() {
+
+    let valid = true;
+
+    // Get values
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value;
+    let phone = document.getElementById("phone").value.trim();
+    let age = document.getElementById("age").value;
+
+    // Clear previous errors
+    document.getElementById("nameError").innerHTML = "";
+    document.getElementById("emailError").innerHTML = "";
+    document.getElementById("passwordError").innerHTML = "";
+    document.getElementById("phoneError").innerHTML = "";
+    document.getElementById("ageError").innerHTML = "";
+
+    // Name validation
+    if (name == "") {
+        document.getElementById("nameError").innerHTML =
+            "Name is required";
+        valid = false;
+    }
+
+    // Email validation
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    if (email == "") {
+        document.getElementById("emailError").innerHTML =
+            "Email is required";
+        valid = false;
+    }
+    else if (!email.match(emailPattern)) {
+        document.getElementById("emailError").innerHTML =
+            "Enter a valid email";
+        valid = false;
+    }
+
+    // Password validation
+    if (password.length < 6) {
+        document.getElementById("passwordError").innerHTML =
+            "Password must contain at least 6 characters";
+        valid = false;
+    }
+
+    // Phone validation
+    let phonePattern = /^[0-9]{10}$/;
+
+    if (!phone.match(phonePattern)) {
+        document.getElementById("phoneError").innerHTML =
+            "Phone number must contain 10 digits";
+        valid = false;
+    }
+
+    // Age validation
+    if (age == "") {
+        document.getElementById("ageError").innerHTML =
+            "Age is required";
+        valid = false;
+    }
+    else if (age < 18 || age > 100) {
+        document.getElementById("ageError").innerHTML =
+            "Age must be between 18 and 100";
+        valid = false;
+    }
+
+    // Submit result
+    if (valid) {
+        alert("Form submitted successfully!");
+    }
+
+    return valid;
+}
+
+</script>
+
+</body>
+</html>
+```
